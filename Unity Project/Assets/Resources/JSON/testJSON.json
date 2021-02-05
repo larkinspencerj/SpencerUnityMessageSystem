@@ -1,0 +1,481 @@
+{
+    "branches": [{
+            "branchId": 0,
+            "messages": [{
+                    "name": "xbot",
+                    "messageText": "Hello there I am xbot.",
+                    "cameraNum": "1",
+                    "cameraEffect": "",
+                    "soundEffectBeforeMessage": "",
+                    "soundEffectAfterMessage": "",
+                    "actorStates": [{
+                            "actorNumber": "1",
+                            "isSpeaking": true,
+                            "faceEmotion": "",
+                            "animation": "",
+                            "walkTo": false,
+                            "walkToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "teleportTo": "on",
+                            "teleportToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "runTo": false,
+                            "runToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "setRotation": false,
+                            "setRotationEulerAngles": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookAtTarget": false,
+                            "lookTargetPosition": {
+                                "x": "",
+                                "y": "",
+                                "z": ""
+                            },
+                            "lookSpeed": "",
+                            "stopLookAtTarget": false
+                        }
+                    ]
+                }, {
+                    "name": "ybot",
+                    "messageText": "Hi xbot. Do you like pizza?",
+                    "cameraNum": "0",
+                    "cameraEffect": "",
+                    "soundEffectBeforeMessage": "",
+                    "soundEffectAfterMessage": "",
+                    "actorStates": [{
+                            "actorNumber": "0",
+                            "isSpeaking": true,
+                            "faceEmotion": "",
+                            "animation": "",
+                            "walkTo": false,
+                            "walkToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "teleportTo": "on",
+                            "teleportToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "runTo": false,
+                            "runToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "setRotation": false,
+                            "setRotationEulerAngles": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookAtTarget": false,
+                            "lookTargetPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookSpeed": "",
+                            "stopLookAtTarget": false
+                        }
+                    ]
+                }
+            ],
+            "nextBranchId": -1,
+            "choices": [{
+                    "choiceText": "Hate it",
+                    "choiceOutcomeBranchId": 1
+                }, {
+                    "choiceText": "Not really.",
+                    "choiceOutcomeBranchId": 2
+                }, {
+                    "choiceText": "It's ok",
+                    "choiceOutcomeBranchId": 3
+                }, {
+                    "choiceText": "Love it",
+                    "choiceOutcomeBranchId": 4
+                }
+            ],
+            "editorData": {
+                "top": 110,
+                "left": 110
+            }
+        }, {
+            "branchId": 1,
+            "messages": [{
+                    "name": "xbot",
+                    "messageText": "Ew gross I hate pizza!",
+                    "cameraNum": "1",
+                    "cameraEffect": "",
+                    "soundEffectBeforeMessage": "",
+                    "soundEffectAfterMessage": "",
+                    "actorStates": [{
+                            "actorNumber": "1",
+                            "isSpeaking": true,
+                            "faceEmotion": "Angry",
+                            "animation": "",
+                            "walkTo": false,
+                            "walkToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "teleportTo": "on",
+                            "teleportToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "runTo": false,
+                            "runToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "setRotation": false,
+                            "setRotationEulerAngles": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookAtTarget": false,
+                            "lookTargetPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookSpeed": "",
+                            "stopLookAtTarget": false
+                        }
+                    ]
+                }
+            ],
+            "nextBranchId": 5,
+            "choices": [],
+            "editorData": {
+                "top": 62.19269102990033,
+                "left": 378.354114713217
+            }
+        }, {
+            "branchId": 2,
+            "messages": [{
+                    "name": "xbot",
+                    "messageText": "No not really.",
+                    "cameraNum": "1",
+                    "cameraEffect": "",
+                    "soundEffectBeforeMessage": "",
+                    "soundEffectAfterMessage": "",
+                    "actorStates": [{
+                            "actorNumber": "1",
+                            "isSpeaking": true,
+                            "faceEmotion": "",
+                            "animation": "ShakingNo",
+                            "walkTo": false,
+                            "walkToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "teleportTo": "on",
+                            "teleportToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "runTo": false,
+                            "runToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "setRotation": false,
+                            "setRotationEulerAngles": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookAtTarget": false,
+                            "lookTargetPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookSpeed": "",
+                            "stopLookAtTarget": false
+                        }
+                    ]
+                }
+            ],
+            "nextBranchId": 5,
+            "choices": [],
+            "editorData": {
+                "top": 132.99003322259136,
+                "left": 383.36658354114724
+            }
+        }, {
+            "branchId": 3,
+            "messages": [{
+                    "name": "xbot",
+                    "messageText": "It's ok I guess",
+                    "cameraNum": "1",
+                    "cameraEffect": "",
+                    "soundEffectBeforeMessage": "",
+                    "soundEffectAfterMessage": "",
+                    "actorStates": [{
+                            "actorNumber": "1",
+                            "isSpeaking": true,
+                            "faceEmotion": "",
+                            "animation": "",
+                            "walkTo": false,
+                            "walkToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "teleportTo": "on",
+                            "teleportToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "runTo": false,
+                            "runToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "setRotation": false,
+                            "setRotationEulerAngles": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookAtTarget": true,
+                            "lookTargetPosition": {
+                                "x": "0.3",
+                                "y": "2",
+                                "z": "-0.4"
+                            },
+                            "lookSpeed": "1",
+                            "stopLookAtTarget": false
+                        }
+                    ]
+                }
+            ],
+            "nextBranchId": 5,
+            "choices": [],
+            "editorData": {
+                "top": 198.80398671096344,
+                "left": 379.40149625935163
+            }
+        }, {
+            "branchId": 4,
+            "messages": [{
+                    "name": "xbot",
+                    "messageText": "I love pizza!",
+                    "cameraNum": "1",
+                    "cameraEffect": "",
+                    "soundEffectBeforeMessage": "",
+                    "soundEffectAfterMessage": "",
+                    "actorStates": [{
+                            "actorNumber": "1",
+                            "isSpeaking": true,
+                            "faceEmotion": "",
+                            "animation": "",
+                            "walkTo": false,
+                            "walkToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "teleportTo": "on",
+                            "teleportToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "runTo": false,
+                            "runToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "setRotation": false,
+                            "setRotationEulerAngles": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookAtTarget": false,
+                            "lookTargetPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookSpeed": "",
+                            "stopLookAtTarget": false
+                        }
+                    ]
+                }
+            ],
+            "nextBranchId": 5,
+            "choices": [],
+            "editorData": {
+                "top": 276.578073089701,
+                "left": 380.423940149626
+            }
+        }, {
+            "branchId": 5,
+            "messages": [{
+                    "name": "ybot",
+                    "messageText": "That's good to know.",
+                    "cameraNum": "0",
+                    "cameraEffect": "",
+                    "soundEffectBeforeMessage": "",
+                    "soundEffectAfterMessage": "",
+                    "actorStates": [{
+                            "actorNumber": "0",
+                            "isSpeaking": true,
+                            "faceEmotion": "",
+                            "animation": "",
+                            "walkTo": false,
+                            "walkToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "teleportTo": "on",
+                            "teleportToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "runTo": false,
+                            "runToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "setRotation": false,
+                            "setRotationEulerAngles": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookAtTarget": false,
+                            "lookTargetPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookSpeed": "",
+                            "stopLookAtTarget": false
+                        }, {
+                            "actorNumber": "1",
+                            "isSpeaking": false,
+                            "faceEmotion": "Blank",
+                            "animation": "",
+                            "walkTo": false,
+                            "walkToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "teleportTo": "on",
+                            "teleportToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "runTo": false,
+                            "runToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "setRotation": false,
+                            "setRotationEulerAngles": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookAtTarget": false,
+                            "lookTargetPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookSpeed": "",
+                            "stopLookAtTarget": true
+                        }
+                    ]
+                }, {
+                    "name": "xbot",
+                    "messageText": "See ya later.",
+                    "cameraNum": "2",
+                    "cameraEffect": "",
+                    "soundEffectBeforeMessage": "",
+                    "soundEffectAfterMessage": "",
+                    "actorStates": [{
+                            "actorNumber": "1",
+                            "isSpeaking": true,
+                            "faceEmotion": "",
+                            "animation": "",
+                            "walkTo": true,
+                            "walkToPosition": {
+                                "x": "5",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "teleportTo": "on",
+                            "teleportToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "runTo": false,
+                            "runToPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "setRotation": false,
+                            "setRotationEulerAngles": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookAtTarget": false,
+                            "lookTargetPosition": {
+                                "x": "0",
+                                "y": "0",
+                                "z": "0"
+                            },
+                            "lookSpeed": "",
+                            "stopLookAtTarget": false
+                        }
+                    ]
+                }
+            ],
+            "choices": [],
+            "editorData": {
+                "top": 163.98671096345515,
+                "left": 608.8778054862844
+            }
+        }
+    ]
+}

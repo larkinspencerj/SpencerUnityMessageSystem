@@ -1,0 +1,181 @@
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+canvas{
+	border:1px solid #ccc;
+}
+
+.messageBox{
+	padding: 10px; 
+	margin: 10px;
+	width: 800px;
+	background-color: #bafff0;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.detailsSpace{
+	padding: 10px; 
+	margin: 10px;
+	width: 900px;
+	background-color: lightyellow;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	display: none;
+}
+
+.indent{
+	padding: 0px; 
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-right: 0px;
+	margin-left: 50px;
+}
+
+.actorStateBox{
+	
+	padding: 10px; 
+	margin: 10px;
+	background-color: LightSteelBlue;
+	
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.choicesBox{
+	
+	padding: 10px; 
+	margin: 10px;
+	background-color: lightgreen;
+	width: 500px;
+	
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.todo{
+	background-color: pink; 
+}
+
+button{
+	background-color: #d9d9d9; 
+	padding: 10px;
+	border-width: 0;
+	outline: none;
+	cursor: pointer;
+	margin: 5px;
+	border-radius: 2px;
+	font-weight: bold;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+}
+
+button:hover{
+	background-color: #e6e6e6; 
+}
+
+.deleteButton{
+	background-color: #f04646; 
+}
+
+.saveButton{
+	background-color: #08a0ff; 
+}
+
+.deleteButton:hover{
+	background-color: #fa9393; 
+}
+
+.xyzInput{
+	width: 50px;
+}
+
+.smallInput{
+	width: 50px;
+}
+
+.smallTextBox{
+	width: 50px;
+}
+
+.jsonInputOutPut{
+	width: 100%;
+	height: 150;
+	resize: none;
+}
+
+.messageText{
+	width: 100%;
+	height: 50px;
+	resize: none;
+}
+
+.arrowUpDown{
+	width: 25px;
+	height: 25px;
+}
+
+.myRow {
+  display: flex;
+}
+
+.myColLeft {
+  flex: 50%;
+  align-items: center;
+  display: flex;
+}
+
+.myColRight {
+  flex: 50%;
+  text-align: right;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+.spencercolumn {
+  float: left;
+  width: 50%;
+}
+
+.spencerrow:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+h1,h2,h3,h4,h5,h6,h7,h8{
+	    margin-top: 0px;
+		margin-bottom: 0px;
+}

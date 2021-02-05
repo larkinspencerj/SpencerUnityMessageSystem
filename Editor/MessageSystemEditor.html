@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<script src="./lib/fabric.js"></script>
+		<meta charset="UTF-8">
+		<title>FLOW CHART MAKER</title>
+		<link rel="stylesheet" href="./style/style.css">
+		
+	</head>
+
+	<body>
+		<div class="controls">
+			<p>
+				<div class="myRow">
+				   <div class="myColLeft">
+						<button id="addBoxBtn" onclick="MakeBox(0)">Add Box</button>
+				   </div>
+				   <div class="myColRight">
+						<button id="importExportBtn">Import / Export JSON</button>
+				   </div>
+				</div>
+			</p>
+		</div>
+		
+		<div id="importExportModal" class="modal">
+		  <div class="modal-content">
+			<span class="close">&times;</span>
+			<h3>Import / Export JSON</h3>
+				
+				<textarea  type='text' id='jsonInputOutput' class='jsonInputOutput'></textarea>
+				<p>
+					<button id="importJsonBtn" onclick="ImportJson()">Import JSON</button>
+					<button id="exportJsonBtn" onclick="ExportJson()">Export JSON</button>
+				</p>
+		  </div>
+		</div>
+		<div style='width:1900px; height:750px; overflow-y: scroll;'>
+			<canvas id="c" width="3500" height="700"></canvas>
+		</div>
+		<p>
+			<div id="detailsSpace" class="detailsSpace">
+			</div>
+		</p>
+
+	</body>
+	<script src="./script/script.js"></script>
+</html>
