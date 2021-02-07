@@ -57,6 +57,8 @@ public class PanelConfig : MonoBehaviour
 
 	private bool waitingForTimer = false;
 
+	private List<string> currChoicesTextCopy;
+
 	void Start()
 	{
 		panelManager = this.GetComponent<PanelManager>();
@@ -64,7 +66,10 @@ public class PanelConfig : MonoBehaviour
 		foreach (Button b in optionButtons)
 		{
 			b.gameObject.SetActive(false);
+			b.enabled = false;
 		}
+
+		currChoicesTextCopy = new List<string>();
 	}
 
 	public void Configure(Branch currentBranch, int stepIndex)
@@ -134,22 +139,17 @@ public class PanelConfig : MonoBehaviour
 
 		if (currentBranch.choices != null && currentBranch.choices.Length > 0 && stepIndex == currentBranch.messages.Length -1)
 		{
-			int optionIndex = 0;
+			this.currChoicesTextCopy = new List<string>();
 
 			foreach (Choice currChoice in currentBranch.choices)
 			{
-				optionButtons[optionIndex].GetComponentInChildren<Text>().text = currChoice.choiceText;
-				optionIndex++;
+				currChoicesTextCopy.Add(currChoice.choiceText);
 			}
+
 			currentlyHaveOptions = true;
 		}
 		else
 		{
-			choicesPanel.SetActive(false);
-			foreach (Button b in optionButtons)
-			{
-				b.gameObject.SetActive(false);
-			}
 			currentlyHaveOptions = false;
 		}
 
@@ -404,6 +404,9 @@ public class PanelConfig : MonoBehaviour
 
 		voicesList = new List<AudioClip>();
 
+		forceKillButtons();
+
+
 		if (myTalkController != null)
 		{
 			myTalkController.finish();
@@ -571,6 +574,8 @@ public class PanelConfig : MonoBehaviour
 			int myChoice = currentBranchCopy.choices[choice - 1].choiceOutcomeBranchId;
 
 			panelManager.StartEventFromBranchId(myChoice);
+
+			hideChoiceButtons(choice - 1);
 		}
 		else
 		{
@@ -669,21 +674,27 @@ public class PanelConfig : MonoBehaviour
 
 	public void FinishMessage()
 	{
-		if(checkIfAnyActorsStillMoving() == false)
+		if (atEndOfMessege == false)
 		{
-			continueIcon.SetActive(true);
-			atEndOfMessege = true;
-
-			if (stepIndexCopy == currentBranchCopy.messages.Length - 1)
+			if (checkIfAnyActorsStillMoving() == false)
 			{
-				showChoiceButtons();
-			}
+				continueIcon.SetActive(true);
+				atEndOfMessege = true;
 
-			if (currentSoundEffectAfterMessage != null && currentSoundEffectAfterMessage.Length > 0)
-			{
-				if (soundEffectsSystem)
+				if (stepIndexCopy == currentBranchCopy.messages.Length - 1)
 				{
-					soundEffectsSystem.playSoundEffect(currentSoundEffectAfterMessage);
+					if (currentBranchCopy.choices != null && currentBranchCopy.choices.Length > 0)
+					{
+						showChoiceButtons();
+					}
+				}
+
+				if (currentSoundEffectAfterMessage != null && currentSoundEffectAfterMessage.Length > 0)
+				{
+					if (soundEffectsSystem)
+					{
+						soundEffectsSystem.playSoundEffect(currentSoundEffectAfterMessage);
+					}
 				}
 			}
 		}
@@ -700,21 +711,192 @@ public class PanelConfig : MonoBehaviour
 		return false;
 	}
 
+	#region choiceButtons
+
+	public bool choiceButtonsShown = false;
+	private float buttonFadeOutSpeed = 3;
+	private float buttonFadeInSpeed = 4;
 
 	public void showChoiceButtons()
 	{
 		if (currentBranchCopy.choices != null && currentBranchCopy.choices.Length > 0)
 		{
-			continueIcon.SetActive(false);
-			choicesPanel.SetActive(true);
-			choicePanelScript.reset();
-
-			for(int i = 0; i < currentBranchCopy.choices.Length; i++)
+			if (choiceButtonsShown == false)
 			{
-				optionButtons[i].gameObject.SetActive(true);
+
+				StartCoroutine("fadeInChoiceButtons");
+
+				continueIcon.SetActive(false);
+				choicesPanel.SetActive(true);
+				choicePanelScript.reset();
+
+				for (int i = 0; i < currentBranchCopy.choices.Length; i++)
+				{
+					optionButtons[i].gameObject.SetActive(true);
+				}
+
+			}
+			else
+			{
+				Debug.Log("Buttons still shown, wait and try again. " + currentMessegeTextCopy);
+				continueIcon.SetActive(false);
+				StartCoroutine("tryShowChoiceButtonsAgain");
+			}
+		}
+		
+	}
+
+	IEnumerator tryShowChoiceButtonsAgain()
+	{
+		//Wait till the buttons are hidden to show new ones
+		//To see this in action, put two choices right after eachother and lower the button fade speeds
+		float waitTime = 0f;
+		while (choiceButtonsShown == true)
+		{
+			waitTime += Time.deltaTime;
+			yield return null;
+		}
+
+		showChoiceButtons();
+	}
+
+	IEnumerator fadeInChoiceButtons()
+	{
+
+		////////////////////
+		//update text
+		int optionIndex = 0;
+
+		foreach (string s in currChoicesTextCopy)
+		{
+			optionButtons[optionIndex].GetComponentInChildren<Text>().text = s;
+			optionIndex++;
+		}
+		////////////////////
+
+
+
+		float alpha = 0;
+
+		while (alpha < 1)
+		{
+			alpha += Time.deltaTime * buttonFadeInSpeed;
+
+			foreach (Button b in optionButtons)
+			{
+				var img = b.GetComponent<Image>();
+				img.color = new Color(img.color.r, img.color.g, img.color.b, alpha);
+
+				foreach (Transform child in b.gameObject.transform)
+				{
+					var text = child.GetComponent<Text>();
+
+					if (text)
+					{
+						text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+					}
+				}
+
+			}
+
+			yield return null;
+		}
+
+		foreach (Button b in optionButtons)
+		{
+			b.enabled = true;
+		}
+
+		choiceButtonsShown = true;
+	}
+
+	public void hideChoiceButtons(int lastChoice)
+	{
+		if (choiceButtonsShown)
+		{
+			StartCoroutine("fadeOutChoiceButtons", lastChoice);
+		}
+	}
+
+	IEnumerator fadeOutChoiceButtons(int lastChoice)
+	{
+		foreach (Button b in optionButtons)
+		{
+			b.enabled = false;
+		}
+
+		float alpha = 1;
+
+		while(alpha > 0)
+		{
+			alpha -= Time.deltaTime * buttonFadeOutSpeed;
+
+			for(int i = 0; i < optionButtons.Length; i++)
+			{
+				if(i != lastChoice)
+				{
+					setButtonAlpha(optionButtons[i], alpha); //First fade not selected choice
+				}
+			}
+
+			yield return null;
+		}
+
+		yield return new WaitForSeconds(0.4f);
+		
+		alpha = 1;
+
+		while (alpha > 0)
+		{
+			alpha -= Time.deltaTime * buttonFadeOutSpeed;
+
+			setButtonAlpha(optionButtons[lastChoice], alpha); //Then fade the selected choice
+
+			yield return null;
+		}
+		
+
+		choicesPanel.SetActive(false);
+		foreach (Button b in optionButtons)
+		{
+			b.gameObject.SetActive(false);
+		}
+
+		choiceButtonsShown = false;
+	}
+
+	private void setButtonAlpha(Button b, float alpha)
+	{
+		var img = b.GetComponent<Image>();
+		img.color = new Color(img.color.r, img.color.g, img.color.b, alpha);
+
+		foreach (Transform child in b.gameObject.transform)
+		{
+			var text = child.GetComponent<Text>();
+
+			if (text)
+			{
+				text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
 			}
 		}
 	}
+
+	private void forceKillButtons()
+	{
+		for (int i = 0; i < optionButtons.Length; i++)
+		{
+			setButtonAlpha(optionButtons[i], 0); //First fade not selected choice
+		}
+
+		foreach (Button b in optionButtons)
+		{
+			b.gameObject.SetActive(false);
+		}
+
+		choiceButtonsShown = false;
+	}
+
+	#endregion
 
 	public bool getIsActive()
 	{
