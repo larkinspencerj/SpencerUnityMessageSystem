@@ -5,13 +5,13 @@ using UnityEngine;
 public class CameraEffects : MonoBehaviour
 {
 
-	public GameObject target;
+	public GameObject lookTarget;
 
 	private bool followTargetBool;
 	private bool shakeBool;
-	public bool zoomInBool;
-	public bool zoomOutBool;
-	public bool panBool;
+	private bool zoomInBool;
+	private bool zoomOutBool;
+	private bool panBool;
 
 	private bool isShaking;
 	public float initialShakeTime = 0.3f;
@@ -22,19 +22,20 @@ public class CameraEffects : MonoBehaviour
 	public float initialZoomIntensity = 10.0f;
 	public float initialZoomTime = 0.5f;
 
-	public bool isZoomingIn;
-	public bool isZoomingOut;
-	public float currZoomTime;
+	private bool isZoomingIn;
+	private bool isZoomingOut;
+	private float currZoomTime;
 
 	private Vector3 originalPosition;
 	private Vector3 originalRotation;
 	private bool originalPosistionSet = false;
 
-	public Texture2D fadeOutTexture;
+	private Texture2D fadeOutTexture;
+	public Color fadeColor = Color.black;
 	private float fadeSpeed = 0.5f;
 	private int drawDepth = -1000;
 	private float alpha = 1.0f;
-	public int fadeDir = 0;
+	private int fadeDir = 0;
 
 	public Vector3 panTarget;
 	public float panSpeed = 0f;
@@ -53,12 +54,9 @@ public class CameraEffects : MonoBehaviour
 		if (fovOverride > 0)
 		{
 			initalFOV = fovOverride;
-			//Debug.Log("OVERRIDE");
 		}
 
-		//Debug.Log("9999999999999999999999999999");
-		//Debug.Log("initalFOV: " + initalFOV);
-		//Debug.Log("9999999999999999999999999999");
+		setupFadeTexture();
 	}
 	
 	// Update is called once per frame
@@ -66,9 +64,9 @@ public class CameraEffects : MonoBehaviour
 	{
 		if(followTargetBool)
 		{
-			if (target != null)
+			if (lookTarget != null)
 			{
-				this.transform.LookAt(target.transform.position);
+				this.transform.LookAt(lookTarget.transform.position);
 			}
 		}
 		else if(shakeBool)
@@ -132,6 +130,18 @@ public class CameraEffects : MonoBehaviour
 		}
 	}
 
+	private void setupFadeTexture()
+	{
+		fadeOutTexture = new Texture2D(100, 100);
+		for (int i = 0; i < 100; i++)
+		{
+			for (int j = 0; j < 100; j++)
+			{
+				fadeOutTexture.SetPixel(i, j, fadeColor);
+			}
+		}
+		fadeOutTexture.Apply();
+	}
 
 
 	public void followTarget()
@@ -208,9 +218,9 @@ public class CameraEffects : MonoBehaviour
 
 	public void lookAtTarget()
 	{
-		if(target != null)
+		if(lookTarget != null)
 		{
-			this.transform.LookAt(target.transform.position);
+			this.transform.LookAt(lookTarget.transform.position);
 		}
 	}
 
@@ -245,5 +255,18 @@ public class CameraEffects : MonoBehaviour
 		alpha = 0.0f;
 		fadeSpeed = 1.0f;
 		BeginFade(1);
+	}
+
+	public void fillWithColor()
+	{
+		alpha = 1.0f;
+		fadeSpeed = 1.0f;
+		BeginFade(1);
+	}
+	public void stopFillWithColor()
+	{
+		alpha = 0.0f;
+		fadeSpeed = 1.0f;
+		BeginFade(-1);
 	}
 }

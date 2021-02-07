@@ -543,6 +543,14 @@ public class PanelConfig : MonoBehaviour
 			{
 				cameras[currCamera].GetComponent<CameraEffects>().fadeOut();
 			}
+			else if (cameraEffect == "fillWithColor")
+			{
+				cameras[currCamera].GetComponent<CameraEffects>().fillWithColor(); //Fill Camera with color
+			}
+			else if (cameraEffect == "stopFillWithColor")
+			{
+				cameras[currCamera].GetComponent<CameraEffects>().stopFillWithColor(); //Stop filling Camera with color
+			}
 			else if (cameraEffect == "pan")
 			{
 				cameras[currCamera].GetComponent<CameraEffects>().pan();
@@ -661,21 +669,25 @@ public class PanelConfig : MonoBehaviour
 
 	public void FinishMessage()
 	{
-		continueIcon.SetActive(true);
-		atEndOfMessege = true;
-
-		if(stepIndexCopy == currentBranchCopy.messages.Length - 1)
+		if(checkIfAnyActorsStillMoving() == false)
 		{
-			showChoiceButtons();
-		}
+			continueIcon.SetActive(true);
+			atEndOfMessege = true;
 
-		if (currentSoundEffectAfterMessage != null && currentSoundEffectAfterMessage.Length > 0)
-		{
-			if (soundEffectsSystem)
+			if (stepIndexCopy == currentBranchCopy.messages.Length - 1)
 			{
-				soundEffectsSystem.playSoundEffect(currentSoundEffectAfterMessage);
+				showChoiceButtons();
+			}
+
+			if (currentSoundEffectAfterMessage != null && currentSoundEffectAfterMessage.Length > 0)
+			{
+				if (soundEffectsSystem)
+				{
+					soundEffectsSystem.playSoundEffect(currentSoundEffectAfterMessage);
+				}
 			}
 		}
+		
 	}
 
 	private bool checkIfAnyActorsStillMoving()
