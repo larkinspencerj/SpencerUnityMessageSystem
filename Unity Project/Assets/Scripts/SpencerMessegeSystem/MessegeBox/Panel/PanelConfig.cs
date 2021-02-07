@@ -59,6 +59,8 @@ public class PanelConfig : MonoBehaviour
 
 	private List<string> currChoicesTextCopy;
 
+	public float debounceTime = 0f;
+
 	void Start()
 	{
 		panelManager = this.GetComponent<PanelManager>();
@@ -196,12 +198,23 @@ public class PanelConfig : MonoBehaviour
 		float pauseTime = 0.0f;
 		currentTime += Time.deltaTime;
 
+		if(debounceTime > 0)
+			debounceTime -= Time.deltaTime;
+
 		if (isActive)
 		{
 
 			if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Fire1"))
 			{
-				advance();
+				if (atEndOfMessege && debounceTime > 0f)
+				{
+					//Do nothing
+				}
+				else
+				{
+					advance();
+				}
+					
 			}
 
 			if (currentTime >= messegeSpeed)
@@ -659,7 +672,7 @@ public class PanelConfig : MonoBehaviour
 		}
 		else
 		{
-			
+			debounceTime = 0.2f;
 			string pattern = @"<[^>]*>";
 			string replacement = "";
 			Regex rgx = new Regex(pattern);
@@ -713,9 +726,9 @@ public class PanelConfig : MonoBehaviour
 
 	#region choiceButtons
 
-	public bool choiceButtonsShown = false;
-	private float buttonFadeOutSpeed = 3;
-	private float buttonFadeInSpeed = 4;
+	private bool choiceButtonsShown = false;
+	private float buttonFadeOutSpeed = 4;
+	private float buttonFadeInSpeed = 8;
 
 	public void showChoiceButtons()
 	{
