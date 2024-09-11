@@ -68,7 +68,7 @@ public class PanelManager : MonoBehaviour
 
 		Branch currBranch = getBranchByBranchID(currentEvent.branches, branchId);
 
-		messegePanel.Configure(currBranch, stepIndex);
+		messegePanel.Configure(currentEvent, currBranch, stepIndex);
 
 		stepIndex++;
 	}
@@ -78,7 +78,7 @@ public class PanelManager : MonoBehaviour
 	{
 		messegePanel.setIsActive(true);
 		Branch currBranch = getBranchByBranchID(currentEvent.branches, branchId);
-		messegePanel.Configure(currBranch, stepIndex);
+		messegePanel.Configure(currentEvent, currBranch, stepIndex);
 	}
 
 	public void UpdatePanelState()

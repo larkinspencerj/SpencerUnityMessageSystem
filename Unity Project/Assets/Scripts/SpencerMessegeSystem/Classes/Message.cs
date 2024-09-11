@@ -5,12 +5,12 @@ using UnityEngine;
 [Serializable]
 public class Message
 {
-	public string name;
+	public int name;
 	public string messageText;
 	public int cameraNum;
-	public string cameraEffect;
-	public string soundEffectBeforeMessage;
-	public string soundEffectAfterMessage;
+	public int cameraEffect;
+	public int soundEffectBeforeMessage;
+	public int soundEffectAfterMessage;
 	public ActorState[] actorStates;
 	public int flagNumber;
 

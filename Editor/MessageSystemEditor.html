@@ -2,9 +2,8 @@
 	<head>
 		<script src="./lib/fabric.js"></script>
 		<meta charset="UTF-8">
-		<title>FLOW CHART MAKER</title>
+		<title>Flow Chart Editor</title>
 		<link rel="stylesheet" href="./style/style.css">
-		
 	</head>
 
 	<body>
@@ -13,6 +12,7 @@
 				<div class="myRow">
 				   <div class="myColLeft">
 						<button id="addBoxBtn" onclick="MakeBox(0)">Add Box</button>
+						<button id="variablesBtn">Variables</button>
 				   </div>
 				   <div class="myColRight">
 						<button id="importExportBtn">Import / Export JSON</button>
@@ -22,24 +22,50 @@
 		</div>
 		
 		<div id="importExportModal" class="modal">
-		  <div class="modal-content">
-			<span class="close">&times;</span>
-			<h3>Import / Export JSON</h3>
+			<div class="modal-outline">
+				<span id="importExportModalCloseBtn" class="close"><img src='./icons/close_icon.png' style="width: 25px; height: 25px;"></span>
+				<h3>Import / Export JSON</h3>
+			</div>
+			<div class="modal-body">
 				
 				<textarea  type='text' id='jsonInputOutput' class='jsonInputOutput'></textarea>
 				<p>
 					<button id="importJsonBtn" onclick="ImportJson()">Import JSON</button>
 					<button id="exportJsonBtn" onclick="ExportJson()">Export JSON</button>
 				</p>
-		  </div>
-		</div>
-		<div style='width:1900px; height:750px; overflow-y: scroll;'>
-			<canvas id="c" width="3500" height="700"></canvas>
-		</div>
-		<p>
-			<div id="detailsSpace" class="detailsSpace">
 			</div>
-		</p>
+		</div>
+		
+		<div id="variablesModel" class="modal">
+			<div class="modal-outline">
+				<span id="variablesModelCloseBtn" class="close" onclick="CloseVariablesModal()"><img src='./icons/close_icon.png' style="width: 25px; height: 25px;"></span>
+				<h3>Variables</h3>
+			</div>
+			<div id="variablesModelContent"class="modal-body-tall">
+			</div>
+			<div class="modal-outline">
+				<button id="variablesModelSaveBtn" class="saveButton" onclick="SaveVariablesModal()">Save</button>
+				<button id="variablesModelCancelBtn" onclick="CloseVariablesModal()">Cancel</button>
+			</div>
+		</div>
+		
+		<div style='width:1900px; height:860px; overflow-y: scroll;'>
+			<canvas id="c" width="3500" height="800"></canvas>
+		</div>
+		
+		
+		
+		
+		<div id="detailsModal" class="modal">
+			<div id="detailsModalHeader" class="modal-outline">
+			</div>
+			<div id="detailsModalContent"class="modal-body-tall">
+				<div id="detailsSpace" class="detailsSpace">
+				</div>
+			</div>
+			<div id="detailsModalFooter" class="modal-outline">
+			</div>
+		</div>
 
 	</body>
 	<script src="./script/script.js"></script>

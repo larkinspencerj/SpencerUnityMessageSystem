@@ -36,6 +36,30 @@ namespace JSONFactory
 				//Debug.Log(JsonUtility.ToJson(narrativeEvent));
 
 				Debug.Log ("JSON Seems to be OK");
+
+				/*
+				foreach(String s in narrativeEvent.variables.names)
+				{
+					Debug.Log(s);
+				}
+				foreach (String s in narrativeEvent.variables.faceEmotions)
+				{
+					Debug.Log(s);
+				}
+				foreach (String s in narrativeEvent.variables.animations)
+				{
+					Debug.Log(s);
+				}
+				foreach (String s in narrativeEvent.variables.cameraEffects)
+				{
+					Debug.Log(s);
+				}
+				foreach (String s in narrativeEvent.variables.SFX)
+				{
+					Debug.Log(s);
+				}
+				*/
+
 				return narrativeEvent;
 			}
 			catch(Exception e)
@@ -51,7 +75,7 @@ namespace JSONFactory
 			errorEvent.branches[0] = new Branch();
 
 			Message errorDialogue = new Message ();
-			errorDialogue.name = "ERROR 001";
+			errorDialogue.name = 0;
 			errorDialogue.messageText = "ERROR! JSON is probably invalid!";
 
 			Debug.Log (errorDialogue.name);

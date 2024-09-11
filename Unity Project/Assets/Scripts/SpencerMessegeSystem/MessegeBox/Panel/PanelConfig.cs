@@ -74,7 +74,7 @@ public class PanelConfig : MonoBehaviour
 		currChoicesTextCopy = new List<string>();
 	}
 
-	public void Configure(Branch currentBranch, int stepIndex)
+	public void Configure(NarrativeEvent currentEvent, Branch currentBranch, int stepIndex)
 	{
 		if (currentBranch.messages.Length <= 0)
 			return;
@@ -111,7 +111,7 @@ public class PanelConfig : MonoBehaviour
 			}
 		}
 
-		currentSoundEffectAfterMessage = currentMessage.soundEffectAfterMessage;
+		currentSoundEffectAfterMessage = currentEvent.variables.SFX[currentMessage.soundEffectAfterMessage];
 
 		if (myTalkController != null)
 		{
@@ -125,19 +125,19 @@ public class PanelConfig : MonoBehaviour
 
 		continueIcon.SetActive(false);
 
-		checkActorStates(currentMessage);
+		checkActorStates(currentEvent, currentMessage);
 
-		if (currentMessage.soundEffectBeforeMessage != null && currentMessage.soundEffectBeforeMessage.Length > 0)
+		if (currentEvent.variables.SFX[currentMessage.soundEffectBeforeMessage] != null && currentEvent.variables.SFX[currentMessage.soundEffectBeforeMessage].Length > 0)
 		{
 			if(soundEffectsSystem)
 			{
-				soundEffectsSystem.playSoundEffect(currentMessage.soundEffectBeforeMessage);
+				soundEffectsSystem.playSoundEffect(currentEvent.variables.SFX[currentMessage.soundEffectBeforeMessage]);
 			}
 		}
 
 		checkCurrCameraNum(currentMessage);
 
-		checkCurrCameraEffect(currentMessage.cameraNum, currentMessage.cameraEffect);
+		checkCurrCameraEffect(currentMessage.cameraNum, currentEvent.variables.cameraEffects[currentMessage.cameraEffect]);
 
 		if (currentBranch.choices != null && currentBranch.choices.Length > 0 && stepIndex == currentBranch.messages.Length -1)
 		{
@@ -155,7 +155,7 @@ public class PanelConfig : MonoBehaviour
 			currentlyHaveOptions = false;
 		}
 
-		if (currentMessage.name == "<playername>")
+		if (currentEvent.variables.names[currentMessage.name] == "<playername>")
 		{
 			//Debug.Log("Name Contains <playername>!!!!!!!!");
 			//Debug.Log(this.playerName);
@@ -164,7 +164,8 @@ public class PanelConfig : MonoBehaviour
 		else
 		{
 			//Debug.Log("normal name");
-			characterNameText.text = currentMessage.name;
+			//characterNameText.text = currentMessage.name;
+			characterNameText.text = currentEvent.variables.names[currentMessage.name];
 		}
 
 		currentMessegeTextCopy = currentMessage.messageText;
@@ -427,7 +428,7 @@ public class PanelConfig : MonoBehaviour
 	}
 
 
-	private void checkActorStates(Message currentMessage)
+	private void checkActorStates(NarrativeEvent currentEvent, Message currentMessage)
 	{
 		if(currentMessage.actorStates != null)
 		{
@@ -435,9 +436,9 @@ public class PanelConfig : MonoBehaviour
 			{
 				if(actorGameObjects[actorState.actorNumber] != null)
 				{
-					if(String.IsNullOrWhiteSpace(actorState.faceEmotion) == false)
+					if(String.IsNullOrWhiteSpace(currentEvent.variables.faceEmotions[actorState.faceEmotion]) == false)
 					{
-						switch (actorState.faceEmotion)
+						switch (currentEvent.variables.faceEmotions[actorState.faceEmotion])
 						{
 							case "Happy":
 								actorGameObjects[actorState.actorNumber].GetComponent<IActor>().Happy();
@@ -484,8 +485,8 @@ public class PanelConfig : MonoBehaviour
 				if (actorState.setRotation)
 					actorGameObjects[actorState.actorNumber].GetComponent<IActor>().SetRotation(actorState.setRotationEulerAngles);
 
-				if (actorState.animation != null && actorState.animation.Length > 0)
-					actorGameObjects[actorState.actorNumber].GetComponent<IActor>().Animate(actorState.animation);
+				if (currentEvent.variables.animations[actorState.animation] != null && currentEvent.variables.animations[actorState.animation].Length > 0)
+					actorGameObjects[actorState.actorNumber].GetComponent<IActor>().Animate(currentEvent.variables.animations[actorState.animation]);
 
 				if (actorState.lookAtTarget)
 					actorGameObjects[actorState.actorNumber].GetComponent<IActor>().LookAt(actorState.lookTargetPosition, actorState.lookSpeed);

@@ -9,8 +9,8 @@ public class ActorState
 
 	public bool isSpeaking;
 
-	public string faceEmotion;
-	public string animation;
+	public int faceEmotion;
+	public int animation;
 
 	public bool walkTo;
 	public Vector3 walkToPosition;

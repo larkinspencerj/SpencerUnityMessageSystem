@@ -1,8 +1,15 @@
 {
+    "variables": {
+        "names": ["", "xbot", "ybot"],
+        "faceEmotions": ["", "Blank", "Angry"],
+        "animations": ["", "ShakingNo"],
+        "cameraEffects": [""],
+        "SFX": [""]
+    },
     "branches": [{
             "branchId": 0,
             "messages": [{
-                    "name": "xbot",
+                    "name": "1",
                     "messageText": "Hello there I am xbot.",
                     "cameraNum": "1",
                     "cameraEffect": "",
@@ -19,7 +26,7 @@
                                 "y": "0",
                                 "z": "0"
                             },
-                            "teleportTo": "on",
+                            "teleportTo": false,
                             "teleportToPosition": {
                                 "x": "0",
                                 "y": "0",
@@ -46,9 +53,12 @@
                             "lookSpeed": "",
                             "stopLookAtTarget": false
                         }
-                    ]
+                    ],
+                    "flagNumber": -1,
+                    "hideMessageBox": false,
+                    "advanceAfterXSeconds": -1
                 }, {
-                    "name": "ybot",
+                    "name": "2",
                     "messageText": "Hi xbot. Do you like pizza?",
                     "cameraNum": "0",
                     "cameraEffect": "",
@@ -65,7 +75,7 @@
                                 "y": "0",
                                 "z": "0"
                             },
-                            "teleportTo": "on",
+                            "teleportTo": false,
                             "teleportToPosition": {
                                 "x": "0",
                                 "y": "0",
@@ -92,7 +102,10 @@
                             "lookSpeed": "",
                             "stopLookAtTarget": false
                         }
-                    ]
+                    ],
+                    "flagNumber": -1,
+                    "hideMessageBox": false,
+                    "advanceAfterXSeconds": -1
                 }
             ],
             "nextBranchId": -1,
@@ -117,7 +130,7 @@
         }, {
             "branchId": 1,
             "messages": [{
-                    "name": "xbot",
+                    "name": "1",
                     "messageText": "Ew gross I hate pizza!",
                     "cameraNum": "1",
                     "cameraEffect": "",
@@ -126,7 +139,7 @@
                     "actorStates": [{
                             "actorNumber": "1",
                             "isSpeaking": true,
-                            "faceEmotion": "Angry",
+                            "faceEmotion": "2",
                             "animation": "",
                             "walkTo": false,
                             "walkToPosition": {
@@ -134,7 +147,7 @@
                                 "y": "0",
                                 "z": "0"
                             },
-                            "teleportTo": "on",
+                            "teleportTo": false,
                             "teleportToPosition": {
                                 "x": "0",
                                 "y": "0",
@@ -161,7 +174,10 @@
                             "lookSpeed": "",
                             "stopLookAtTarget": false
                         }
-                    ]
+                    ],
+                    "flagNumber": -1,
+                    "hideMessageBox": false,
+                    "advanceAfterXSeconds": -1
                 }
             ],
             "nextBranchId": 5,
@@ -173,7 +189,7 @@
         }, {
             "branchId": 2,
             "messages": [{
-                    "name": "xbot",
+                    "name": "1",
                     "messageText": "No not really.",
                     "cameraNum": "1",
                     "cameraEffect": "",
@@ -183,14 +199,14 @@
                             "actorNumber": "1",
                             "isSpeaking": true,
                             "faceEmotion": "",
-                            "animation": "ShakingNo",
+                            "animation": "1",
                             "walkTo": false,
                             "walkToPosition": {
                                 "x": "0",
                                 "y": "0",
                                 "z": "0"
                             },
-                            "teleportTo": "on",
+                            "teleportTo": false,
                             "teleportToPosition": {
                                 "x": "0",
                                 "y": "0",
@@ -217,7 +233,10 @@
                             "lookSpeed": "",
                             "stopLookAtTarget": false
                         }
-                    ]
+                    ],
+                    "flagNumber": -1,
+                    "hideMessageBox": false,
+                    "advanceAfterXSeconds": -1
                 }
             ],
             "nextBranchId": 5,
@@ -229,7 +248,7 @@
         }, {
             "branchId": 3,
             "messages": [{
-                    "name": "xbot",
+                    "name": "1",
                     "messageText": "It's ok I guess",
                     "cameraNum": "1",
                     "cameraEffect": "",
@@ -246,7 +265,7 @@
                                 "y": "0",
                                 "z": "0"
                             },
-                            "teleportTo": "on",
+                            "teleportTo": false,
                             "teleportToPosition": {
                                 "x": "0",
                                 "y": "0",
@@ -273,7 +292,10 @@
                             "lookSpeed": "1",
                             "stopLookAtTarget": false
                         }
-                    ]
+                    ],
+                    "flagNumber": -1,
+                    "hideMessageBox": false,
+                    "advanceAfterXSeconds": -1
                 }
             ],
             "nextBranchId": 5,
@@ -285,7 +307,7 @@
         }, {
             "branchId": 4,
             "messages": [{
-                    "name": "xbot",
+                    "name": "1",
                     "messageText": "I love pizza!",
                     "cameraNum": "1",
                     "cameraEffect": "",
@@ -302,7 +324,7 @@
                                 "y": "0",
                                 "z": "0"
                             },
-                            "teleportTo": "on",
+                            "teleportTo": false,
                             "teleportToPosition": {
                                 "x": "0",
                                 "y": "0",
@@ -329,7 +351,10 @@
                             "lookSpeed": "",
                             "stopLookAtTarget": false
                         }
-                    ]
+                    ],
+                    "flagNumber": -1,
+                    "hideMessageBox": false,
+                    "advanceAfterXSeconds": -1
                 }
             ],
             "nextBranchId": 5,
@@ -341,24 +366,27 @@
         }, {
             "branchId": 5,
             "messages": [{
-                    "name": "ybot",
+                    "name": "2",
                     "messageText": "That's good to know.",
                     "cameraNum": "0",
-                    "cameraEffect": "",
-                    "soundEffectBeforeMessage": "",
-                    "soundEffectAfterMessage": "",
+                    "cameraEffect": "0",
+                    "soundEffectBeforeMessage": "0",
+                    "soundEffectAfterMessage": "0",
+                    "flagNumber": "-1",
+                    "hideMessageBox": false,
+                    "advanceAfterXSeconds": "-1",
                     "actorStates": [{
                             "actorNumber": "0",
                             "isSpeaking": true,
-                            "faceEmotion": "",
-                            "animation": "",
+                            "faceEmotion": "0",
+                            "animation": "0",
                             "walkTo": false,
                             "walkToPosition": {
                                 "x": "0",
                                 "y": "0",
                                 "z": "0"
                             },
-                            "teleportTo": "on",
+                            "teleportTo": false,
                             "teleportToPosition": {
                                 "x": "0",
                                 "y": "0",
@@ -387,15 +415,15 @@
                         }, {
                             "actorNumber": "1",
                             "isSpeaking": false,
-                            "faceEmotion": "Blank",
-                            "animation": "",
+                            "faceEmotion": "1",
+                            "animation": "0",
                             "walkTo": false,
                             "walkToPosition": {
                                 "x": "0",
                                 "y": "0",
                                 "z": "0"
                             },
-                            "teleportTo": "on",
+                            "teleportTo": false,
                             "teleportToPosition": {
                                 "x": "0",
                                 "y": "0",
@@ -424,24 +452,27 @@
                         }
                     ]
                 }, {
-                    "name": "xbot",
+                    "name": "1",
                     "messageText": "See ya later.",
                     "cameraNum": "2",
-                    "cameraEffect": "",
-                    "soundEffectBeforeMessage": "",
-                    "soundEffectAfterMessage": "",
+                    "cameraEffect": "0",
+                    "soundEffectBeforeMessage": "0",
+                    "soundEffectAfterMessage": "0",
+                    "flagNumber": "-1",
+                    "hideMessageBox": false,
+                    "advanceAfterXSeconds": "-1",
                     "actorStates": [{
                             "actorNumber": "1",
                             "isSpeaking": true,
-                            "faceEmotion": "",
-                            "animation": "",
+                            "faceEmotion": "0",
+                            "animation": "0",
                             "walkTo": true,
                             "walkToPosition": {
                                 "x": "5",
                                 "y": "0",
                                 "z": "0"
                             },
-                            "teleportTo": "on",
+                            "teleportTo": false,
                             "teleportToPosition": {
                                 "x": "0",
                                 "y": "0",
@@ -469,6 +500,17 @@
                             "stopLookAtTarget": false
                         }
                     ]
+                }, {
+                    "name": "0",
+                    "messageText": "The end",
+                    "cameraNum": "2",
+                    "cameraEffect": "0",
+                    "soundEffectBeforeMessage": "0",
+                    "soundEffectAfterMessage": "0",
+                    "flagNumber": "-1",
+                    "hideMessageBox": false,
+                    "advanceAfterXSeconds": "-1",
+                    "actorStates": []
                 }
             ],
             "choices": [],

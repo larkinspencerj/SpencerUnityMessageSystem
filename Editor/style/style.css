@@ -16,12 +16,15 @@ canvas{
 }
 
 .detailsSpace{
+	display: none;
+}
+
+.detailsSection{
 	padding: 10px; 
 	margin: 10px;
 	width: 900px;
 	background-color: lightyellow;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-	display: none;
 }
 
 .indent{
@@ -74,13 +77,45 @@ button:hover{
 	background-color: #f04646; 
 }
 
+.deleteButton:hover{
+	background-color: #fa9393; 
+}
+
 .saveButton{
 	background-color: #08a0ff; 
 }
 
-.deleteButton:hover{
+.saveButton:hover{
+	background-color: #6bc6ff; 
+}
+
+.addRowButton{
+	font-weight: bold;
+	background-color: #35c45b; 
+	padding: 1px;
+	width: 40px;
+	margin-left: 19px;
+}
+
+.addRowButton:hover{
+	background-color: #59cf78;
+}
+
+.removeRowButton{
+	font-weight: bold;
+	background-color: #f04646; 
+	height: 20px;
+	width: 25px;
+	margin: 0px;
+	margin-left: 4px;
+	padding: 0px;
+}
+
+.removeRowButton:hover{
 	background-color: #fa9393; 
 }
+
+
 
 .xyzInput{
 	width: 50px;
@@ -130,7 +165,7 @@ button:hover{
   display: none;
   position: fixed;
   z-index: 1;
-  padding-top: 100px;
+  padding-top: 20px;
   left: 0;
   top: 0;
   width: 100%;
@@ -140,11 +175,34 @@ button:hover{
   background-color: rgba(0,0,0,0.4);
 }
 
-.modal-content {
+.modal-body {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
+  width: 50%;
+  
+  overflow: auto;
+  max-height: 50%;
+}
+
+.modal-body-tall {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  
+  overflow: auto;
+  height: 75%;
+}
+
+.modal-outline {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border-left: 1px solid #888;
+  border-right: 1px solid #888;
   width: 50%;
 }
 
@@ -153,6 +211,7 @@ button:hover{
   float: right;
   font-size: 28px;
   font-weight: bold;
+  filter: opacity(50%);
 }
 
 .close:hover,
@@ -160,6 +219,7 @@ button:hover{
   color: #000;
   text-decoration: none;
   cursor: pointer;
+  filter: opacity(20%);
 }
 
 
@@ -176,6 +236,6 @@ button:hover{
 }
 
 h1,h2,h3,h4,h5,h6,h7,h8{
-	    margin-top: 0px;
-		margin-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }

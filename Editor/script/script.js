@@ -10,7 +10,7 @@ canvas.selection = false;
 fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
 
 var deleteIcon = document.createElement('img');
-deleteIcon.src = "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E";
+deleteIcon.src = './icons/delete_icon.png';
 
 var editIcon = document.createElement('img');
 editIcon.src = './icons/edit_icon.png';
@@ -19,6 +19,8 @@ var copyIcon = document.createElement('img');
 copyIcon.src = './icons/copy_icon.png';
 
 var branchesList = [];
+var variables = { names:[""], faceEmotions:[""], animations:[""], cameraEffects:[""], SFX:[""] }; //Add default blank option
+var tempVariables = { names:[""], faceEmotions:[""], animations:[""], cameraEffects:[""], SFX:[""] };
 
 fabric.Object.prototype.transparentCorners = false;
 fabric.Object.prototype.cornerColor = 'blue';
@@ -29,7 +31,10 @@ var tempBranch = null;
 //Modal Stuff
 var importExportModal = document.getElementById("importExportModal");
 var importExportBtn = document.getElementById("importExportBtn");
-var closeBtn = document.getElementsByClassName("close")[0];
+var variablesModel = document.getElementById("variablesModel");
+var variablesBtn = document.getElementById("variablesBtn");
+var importExportModalCloseBtn = document.getElementById("importExportModalCloseBtn");
+
 
 
 function ImportJson()
@@ -38,6 +43,12 @@ function ImportJson()
 	{
 		var jsonString = document.getElementById('jsonInputOutput').value;
 		jsonObj = JSON.parse(jsonString);
+		
+		
+		//Set variables
+		variables = jsonObj.variables;
+		
+		//console.log(variables);
 		
 		canvas.clear();
 		
@@ -213,12 +224,20 @@ function ExportJson()
 {
 	pullChartConnectionsToBranchList();
 	
-	console.log(canvas._objects);
-	console.log(branchesList);
-	console.log(tempBranch);
+	console.log("tempVariables: ");
+	console.log(tempVariables);
+	console.log("variables: ");
+	console.log(variables);
 	
-	var jsonObj  = { branches:branchesList }
-	var jsonString = JSON.stringify(jsonObj)
+	console.log("canvas._objects: ");
+	console.log(canvas._objects);
+	console.log("branchesList: ");
+	console.log(branchesList);
+	console.log("tempBranch: ");
+	console.log(tempBranch);
+
+	var jsonObj  = { variables:variables, branches:branchesList }
+	var jsonString = JSON.stringify(jsonObj);
 	
 	console.log(jsonString);
 	document.getElementById('jsonInputOutput').value = jsonString;
@@ -261,16 +280,148 @@ function pullChartConnectionsToBranchList()
 	}
 }
 
-
+function renderVariables()
+{
+	var variablesModelContent = [];
+	
+	variablesModelContent.push("<h4>Names</h4>");
+	variablesModelContent.push("<br>");
+	for(var i = 0; i < tempVariables.names.length; i++)
+	{
+		variablesModelContent.push("<div class='spencerRow'>");
+		variablesModelContent.push("<label>" + i + ": </label>");
+		variablesModelContent.push("<input type='text' class='variableNameInputs' id='nameVar" + i + "' value='" + tempVariables.names[i] + "'");
+		
+		if(i == 0)
+		{
+			variablesModelContent.push("disabled='disabled'>")
+		}
+		else
+		{
+			variablesModelContent.push(">")
+		}
+		
+		//variablesModelContent.push("<button id='removeNameRowBtn" + i + "' class='removeRowButton' onclick='DeleteTempNameVariable(" + i + ")'><img src='./icons/remove_icon.png' style='width: 10px; height: 10px;'></button>");
+		variablesModelContent.push("<br><br>");
+		variablesModelContent.push("</div>");
+	}
+	variablesModelContent.push("<button id='AddNameRowBtn' class='addRowButton' onclick='AddTempNameVariable()'><img src='./icons/add_icon.png' style='width: 25px; height: 25px;'></button>");
+	variablesModelContent.push("<br>");
+	variablesModelContent.push("<br>");
+	
+	variablesModelContent.push("<h4>Face Emotions</h4>");
+	variablesModelContent.push("<br>");
+	for(var i = 0; i < tempVariables.faceEmotions.length; i++)
+	{
+		variablesModelContent.push("<div class='spencerRow'>");
+		variablesModelContent.push("<label>" + i + ": </label>");
+		variablesModelContent.push("<input type='text' class='variableFaceEmotionInputs' id='faceEmotionVar" + i + "' value='" + tempVariables.faceEmotions[i] + "'");
+		if(i == 0)
+		{
+			variablesModelContent.push("disabled='disabled'>")
+		}
+		else
+		{
+			variablesModelContent.push(">")
+		}
+		//variablesModelContent.push("<button id='removefaceEmotionRowBtn" + i + "' class='removeRowButton' onclick='DeleteTempFaceEmotionVariable(" + i + ")'><img src='./icons/remove_icon.png' style='width: 10px; height: 10px;'></button>");
+		variablesModelContent.push("<br><br>");
+		variablesModelContent.push("</div>");
+	}
+	variablesModelContent.push("<button id='AddFaceEmotionRowBtn' class='addRowButton' onclick='AddTempFaceEmotionVariable()'><img src='./icons/add_icon.png' style='width: 25px; height: 25px;'></button>");
+	variablesModelContent.push("<br>");
+	variablesModelContent.push("<br>");
+	
+	variablesModelContent.push("<h4>Animations</h4>");
+	variablesModelContent.push("<br>");
+	for(var i = 0; i < tempVariables.animations.length; i++)
+	{
+		variablesModelContent.push("<div class='spencerRow'>");
+		variablesModelContent.push("<label>" + i + ": </label>");
+		variablesModelContent.push("<input type='text' class='variableAnimationInputs' id='animationVar" + i + "' value='" + tempVariables.animations[i] + "'");
+		if(i == 0)
+		{
+			variablesModelContent.push("disabled='disabled'>")
+		}
+		else
+		{
+			variablesModelContent.push(">")
+		}
+		variablesModelContent.push("<br><br>");
+		variablesModelContent.push("</div>");
+	}
+	variablesModelContent.push("<button id='AddAnimationRowBtn' class='addRowButton' onclick='AddTempAnimationVariable()'><img src='./icons/add_icon.png' style='width: 25px; height: 25px;'></button>");
+	variablesModelContent.push("<br>");
+	variablesModelContent.push("<br>");
+	
+	variablesModelContent.push("<h4>Camera Effects</h4>");
+	variablesModelContent.push("<br>");
+	for(var i = 0; i < tempVariables.cameraEffects.length; i++)
+	{
+		variablesModelContent.push("<div class='spencerRow'>");
+		variablesModelContent.push("<label>" + i + ": </label>");
+		variablesModelContent.push("<input type='text' class='variableCameraEffectInputs' id='cameraEffectVar" + i + "' value='" + tempVariables.cameraEffects[i] + "'");
+		if(i == 0)
+		{
+			variablesModelContent.push("disabled='disabled'>")
+		}
+		else
+		{
+			variablesModelContent.push(">")
+		}
+		variablesModelContent.push("<br><br>");
+		variablesModelContent.push("</div>");
+	}
+	variablesModelContent.push("<button id='AddcameraEffectRowBtn' class='addRowButton' onclick='AddTempCameraEffectsVariable()'><img src='./icons/add_icon.png' style='width: 25px; height: 25px;'></button>");
+	variablesModelContent.push("<br>");
+	variablesModelContent.push("<br>");
+	
+	
+	variablesModelContent.push("<h4>SFX</h4>");
+	variablesModelContent.push("<br>");
+	for(var i = 0; i < tempVariables.SFX.length; i++)
+	{
+		variablesModelContent.push("<div class='spencerRow'>");
+		variablesModelContent.push("<label>" + i + ": </label>");
+		variablesModelContent.push("<input type='text' class='variableSFXInputs' id='SFXVar" + i + "' value='" + tempVariables.SFX[i] + "'");
+		if(i == 0)
+		{
+			variablesModelContent.push("disabled='disabled'>")
+		}
+		else
+		{
+			variablesModelContent.push(">")
+		}
+		variablesModelContent.push("<br><br>");
+		variablesModelContent.push("</div>");
+	}
+	variablesModelContent.push("<button id='AddSFXRowBtn' class='addRowButton' onclick='AddTempSFXVariable()'><img src='./icons/add_icon.png' style='width: 25px; height: 25px;'></button>");
+	variablesModelContent.push("<br>");
+	variablesModelContent.push("<br>");
+	
+	
+	variablesModelContent = variablesModelContent.join("");
+	
+	document.getElementById("variablesModelContent").innerHTML = variablesModelContent;
+	//document.getElementById("variablesModelContent").style.display = "block";
+}
 
 function renderMessageDetails(branchId)
 {
 	var editBranchInfoHTML = [];
 	
-	editBranchInfoHTML.push("<h1>Editing Branch: " + branchId + "</h1>");
-	editBranchInfoHTML.push("<br>");
+	var editBranchHeaderHTML = [];
+	var editBranchFooterHTML = [];
+	
+	editBranchHeaderHTML.push("<span id='editBranchCloseBtn' class='close' onclick='CancelEditBranch(" + branchId + ")'><img src='./icons/close_icon.png' style='width: 25px; height: 25px;'></span>");
+	editBranchHeaderHTML.push("<h3>Editing Branch: " + branchId + "</h3>");
+	
+	
+	
+	//editBranchInfoHTML.push("<br>");
 	var myBranch = GetBranch(branchId);
 	
+	editBranchInfoHTML.push("<div class='detailsSection'>");
 	editBranchInfoHTML.push("<h2>Messages</h2>");
 	editBranchInfoHTML.push("<br>");
 	
@@ -296,7 +447,21 @@ function renderMessageDetails(branchId)
 		editBranchInfoHTML.push("<br>");
 		
 		editBranchInfoHTML.push("<label>Name:</label>");
-		editBranchInfoHTML.push("<input type='text' id='messageName" + i + "' value='" + tempBranch.messages[i].name  + "'><br><br>");
+		//editBranchInfoHTML.push("<input type='text' id='messageName" + i + "' value='" + tempBranch.messages[i].name  + "'><br><br>");
+		editBranchInfoHTML.push("<select name='messageName" + i + "' id='messageName" + i + "'>");
+		for(var j = 0; j < variables.names.length; j++)
+		{
+			if(tempBranch.messages[i].name == j)
+			{
+				console.log("MATCH");
+				editBranchInfoHTML.push("<option value='" + j + "' selected>" + variables.names[j] + "</option>");
+			}
+			else
+			{
+				editBranchInfoHTML.push("<option value='" + j + "'>" + variables.names[j] + "</option>");
+			}
+		}
+		editBranchInfoHTML.push("</select><br><br>");
 		
 		editBranchInfoHTML.push("<label>Message Text:</label>");
 		editBranchInfoHTML.push("<textarea type='text' id='messageText" + i + "' class='messageText' spellcheck='true'>" + tempBranch.messages[i].messageText + "</textarea><br><br>");
@@ -308,7 +473,22 @@ function renderMessageDetails(branchId)
 		editBranchInfoHTML.push("<label>Camera Num:</label>");
 		editBranchInfoHTML.push("<input type='text' id='cameraNum" + i + "' value='" + tempBranch.messages[i].cameraNum  + "' class='smallInput'><br><br>");
 		editBranchInfoHTML.push("<label>SFX Before Message:</label>");
-		editBranchInfoHTML.push("<input type='text' id='soundEffectBeforeMessage" + i + "' value='" + tempBranch.messages[i].soundEffectBeforeMessage + "'><br><br>");
+		//editBranchInfoHTML.push("<input type='text' id='soundEffectBeforeMessage" + i + "' value='" + tempBranch.messages[i].soundEffectBeforeMessage + "'><br><br>");
+		
+		editBranchInfoHTML.push("<select name='soundEffectBeforeMessage" + i + "' id='soundEffectBeforeMessage" + i + "'>");
+		for(var j = 0; j < variables.SFX.length; j++)
+		{
+			if(tempBranch.messages[i].soundEffectBeforeMessage == j)
+			{
+				console.log("MATCH");
+				editBranchInfoHTML.push("<option value='" + j + "' selected>" + variables.SFX[j] + "</option>");
+			}
+			else
+			{
+				editBranchInfoHTML.push("<option value='" + j + "'>" + variables.SFX[j] + "</option>");
+			}
+		}
+		editBranchInfoHTML.push("</select><br><br>");
 		
 		editBranchInfoHTML.push("<label>Flag Number:</label>");
 		editBranchInfoHTML.push("<input type='text' id='flagNumber" + i + "' value='" + tempBranch.messages[i].flagNumber + "'><br><br>");
@@ -320,10 +500,40 @@ function renderMessageDetails(branchId)
 		
 		editBranchInfoHTML.push("<div class='spencercolumn'>");
 		editBranchInfoHTML.push("<label>Camera Effect:</label>");
-		editBranchInfoHTML.push("<input type='text' id='cameraEffect" + i + "' value='" + tempBranch.messages[i].cameraEffect + "'><br><br>");
+		//editBranchInfoHTML.push("<input type='text' id='cameraEffect" + i + "' value='" + tempBranch.messages[i].cameraEffect + "'><br><br>");
+		
+		editBranchInfoHTML.push("<select name='cameraEffect" + i + "' id='cameraEffect" + i + "'>");
+		for(var j = 0; j < variables.cameraEffects.length; j++)
+		{
+			if(tempBranch.messages[i].cameraEffect == j)
+			{
+				console.log("MATCH");
+				editBranchInfoHTML.push("<option value='" + j + "' selected>" + variables.cameraEffects[j] + "</option>");
+			}
+			else
+			{
+				editBranchInfoHTML.push("<option value='" + j + "'>" + variables.cameraEffects[j] + "</option>");
+			}
+		}
+		editBranchInfoHTML.push("</select><br><br>");
 		
 		editBranchInfoHTML.push("<label>SFX After Message:</label>");
-		editBranchInfoHTML.push("<input type='text' id='soundEffectAfterMessage" + i + "' value='" + tempBranch.messages[i].soundEffectAfterMessage + "'><br><br>");
+		//editBranchInfoHTML.push("<input type='text' id='soundEffectAfterMessage" + i + "' value='" + tempBranch.messages[i].soundEffectAfterMessage + "'><br><br>");
+		
+		editBranchInfoHTML.push("<select name='soundEffectAfterMessage" + i + "' id='soundEffectAfterMessage" + i + "'>");
+		for(var j = 0; j < variables.SFX.length; j++)
+		{
+			if(tempBranch.messages[i].soundEffectAfterMessage == j)
+			{
+				console.log("MATCH");
+				editBranchInfoHTML.push("<option value='" + j + "' selected>" + variables.SFX[j] + "</option>");
+			}
+			else
+			{
+				editBranchInfoHTML.push("<option value='" + j + "'>" + variables.SFX[j] + "</option>");
+			}
+		}
+		editBranchInfoHTML.push("</select><br><br>");
 		
 		editBranchInfoHTML.push("<label>Hide Message Box:</label>");
 		if(tempBranch.messages[i].hideMessageBox)
@@ -379,7 +589,21 @@ function renderMessageDetails(branchId)
 			
 			
 			editBranchInfoHTML.push("<label>faceEmotion:</label>");
-			editBranchInfoHTML.push("<input type='text' id='faceEmotion" + i + "_" + j + "' value='" + thisActorState.faceEmotion + "'><br><br>");
+			//editBranchInfoHTML.push("<input type='text' id='faceEmotion" + i + "_" + j + "' value='" + thisActorState.faceEmotion + "'><br><br>");
+			editBranchInfoHTML.push("<select name='faceEmotion" + i + "_" + j + "' id='faceEmotion" + i + "_" + j + "'>");
+			for(var k = 0; k < variables.faceEmotions.length; k++)
+			{
+				if(thisActorState.faceEmotion == k)
+				{
+					console.log("MATCH");
+					editBranchInfoHTML.push("<option value='" + k + "' selected>" + variables.faceEmotions[k] + "</option>");
+				}
+				else
+				{
+					editBranchInfoHTML.push("<option value='" + k + "'>" + variables.faceEmotions[k] + "</option>");
+				}
+			}
+			editBranchInfoHTML.push("</select><br><br>");
 			
 			
 			//////////////
@@ -462,7 +686,21 @@ function renderMessageDetails(branchId)
 			
 			
 			editBranchInfoHTML.push("<label>animation:</label>");
-			editBranchInfoHTML.push("<input type='text' id='animation" + i + "_" + j + "' value='" + thisActorState.animation + "'><br><br>");
+			//editBranchInfoHTML.push("<input type='text' id='animation" + i + "_" + j + "' value='" + thisActorState.animation + "'><br><br>");
+			editBranchInfoHTML.push("<select name='animation" + i + "_" + j + "' id='animation" + i + "_" + j + "'>");
+			for(var k = 0; k < variables.animations.length; k++)
+			{
+				if(thisActorState.animation == k)
+				{
+					console.log("MATCH");
+					editBranchInfoHTML.push("<option value='" + k + "' selected>" + variables.animations[k] + "</option>");
+				}
+				else
+				{
+					editBranchInfoHTML.push("<option value='" + k + "'>" + variables.animations[k] + "</option>");
+				}
+			}
+			editBranchInfoHTML.push("</select><br><br>");
 			
 			//////////////
 			editBranchInfoHTML.push("<label>teleportTo:</label>");
@@ -555,10 +793,11 @@ function renderMessageDetails(branchId)
 	
 	editBranchInfoHTML.push("<button id='addMessage' onclick='AddAfter(" + branchId + ", " + i + ")'>Add Message</button><br><br>");
 	
-	
+	editBranchInfoHTML.push("</div>");
 	
 	
 	//////////////////////////////////////////////////////////
+	editBranchInfoHTML.push("<div class='detailsSection'>");
 	editBranchInfoHTML.push("<h2>Choices</h2>");
 	
 	editBranchInfoHTML.push("<br>");
@@ -596,18 +835,25 @@ function renderMessageDetails(branchId)
 	editBranchInfoHTML.push("</div>");
 	
 	editBranchInfoHTML.push("<button id='addChoice' onclick='AddChoice(" + branchId + ")' >Add Choice</button><br>");
-	editBranchInfoHTML.push("<label>(changing number of choices will break links)</label><br><br>");
+	editBranchInfoHTML.push("<label style='font-style: italic'>(changing number of choices will break links)</label><br><br>");
+	editBranchInfoHTML.push("</div>");
 	//////////////////////////////////////////////////////////
 
-	editBranchInfoHTML.push("<button id='saveBranch' onclick='SaveBranch(" + branchId + ")' class='saveButton'>Save</button>");
+	editBranchFooterHTML.push("<button id='saveBranch' onclick='SaveBranch(" + branchId + ")' class='saveButton'>Save</button>");
 	
-	editBranchInfoHTML.push("<button id='cancelEditBracnh' onclick='CancelEditBranch(" + branchId + ")'>Cancel</button>");
+	editBranchFooterHTML.push("<button id='cancelEditBracnh' onclick='CancelEditBranch(" + branchId + ")'>Cancel</button>");
 	
 	
 	editBranchInfoHTML = editBranchInfoHTML.join("");
+	editBranchHeaderHTML = editBranchHeaderHTML.join("");
+	editBranchFooterHTML = editBranchFooterHTML.join("");
 	
 	document.getElementById("detailsSpace").innerHTML = editBranchInfoHTML;
 	document.getElementById("detailsSpace").style.display = "block";
+	document.getElementById("detailsModal").style.display = "block";
+	
+	document.getElementById("detailsModalHeader").innerHTML = editBranchHeaderHTML;
+	document.getElementById("detailsModalFooter").innerHTML = editBranchFooterHTML;
 }
 
 function SetBoxNumberOfChoiceCircles(branchId, numChoices)
@@ -765,6 +1011,275 @@ function AddAfter(branchId, messagePosition)
 	
 	renderMessageDetails(branchId);
 }
+/*
+function AddEmptyNameVariable()
+{
+	console.log("AddEmptyNameVariable");
+	variables.names.push("");
+	renderVariables();
+}
+
+function AddNameVariable(name)
+{
+	console.log("AddNameVariable " + name);
+	variables.names.push(name);
+	renderVariables();
+}
+
+function DeleteNameVariable(position)
+{
+	variables.names.splice(position, 1);
+	renderVariables();
+}
+
+function AddEmptyFaceEmotionVariable()
+{
+	console.log("AddEmptyFaceEmotionVariable");
+	variables.faceEmotions.push("");
+	renderVariables();
+}
+
+function AddFaceEmotionVariable(faceEmotion)
+{
+	console.log("AddFaceEmotionVariable " + faceEmotion);
+	variables.faceEmotions.push(faceEmotion);
+	renderVariables();
+}
+
+function DeleteFaceEmotionVariable(position)
+{
+	
+	variables.faceEmotions.splice(position, 1);
+	renderVariables();
+}
+
+function AddEmptyAnimationVariable()
+{
+	console.log("AddEmptyAnimationVariable");
+	variables.animations.push("");
+	renderVariables();
+}
+
+function AddAnimationVariable(animation)
+{
+	console.log("AddAnimationVariable " + animation);
+	variables.animations.push(animation);
+	renderVariables();
+}
+
+function DeleteAnimationVariable(position)
+{
+	variables.animations.splice(position, 1);
+	renderVariables();
+}
+*/
+
+function UpdateTempVariablesFromModal()
+{
+	console.log("UpdateTempVariablesFromModal: ");
+	
+	tempVariables.names = [];
+	var rows1 = document.getElementsByClassName("variableNameInputs");
+	for(var i= 0; i < rows1.length; i++)
+	{
+		var name = document.getElementById("nameVar"+i);
+		console.log(name.value);
+		tempVariables.names.push(name.value);
+	}
+	
+	tempVariables.faceEmotions = [];
+	var rows2 = document.getElementsByClassName("variableFaceEmotionInputs");
+	for(var i= 0; i < rows2.length; i++)
+	{
+		var faceEmotion = document.getElementById("faceEmotionVar"+i);
+		console.log(faceEmotion.value);
+		tempVariables.faceEmotions.push(faceEmotion.value);
+	}
+	
+	tempVariables.animations = [];
+	var rows3 = document.getElementsByClassName("variableAnimationInputs");
+	for(var i= 0; i < rows3.length; i++)
+	{
+		var animation = document.getElementById("animationVar"+i);
+		console.log(animation.value);
+		tempVariables.animations.push(animation.value);
+	}
+	
+	tempVariables.cameraEffects = [];
+	var rows4 = document.getElementsByClassName("variableCameraEffectInputs");
+	for(var i= 0; i < rows4.length; i++)
+	{
+		var cameraEffect = document.getElementById("cameraEffectVar"+i);
+		console.log(cameraEffect.value);
+		tempVariables.cameraEffects.push(cameraEffect.value);
+	}
+	
+	tempVariables.SFX = [];
+	var rows5 = document.getElementsByClassName("variableSFXInputs");
+	for(var i= 0; i < rows5.length; i++)
+	{
+		var SFX = document.getElementById("SFXVar"+i);
+		console.log(SFX.value);
+		tempVariables.SFX.push(SFX.value);
+	}
+}
+
+function SetVariablesFromTempVariables()
+{
+	console.log("SetVariablesFromTempVariables");
+	console.log(tempVariables);
+	console.log(variables);
+	
+	variables.names = [];
+	for(var i= 0; i < tempVariables.names.length; i++)
+	{
+		variables.names.push(tempVariables.names[i])
+	}
+	variables.faceEmotions = [];
+	for(var i= 0; i < tempVariables.faceEmotions.length; i++)
+	{
+		variables.faceEmotions.push(tempVariables.faceEmotions[i])
+	}
+	
+	variables.animations = [];
+	for(var i= 0; i < tempVariables.animations.length; i++)
+	{
+		variables.animations.push(tempVariables.animations[i])
+	}
+	
+	variables.cameraEffects = [];
+	for(var i= 0; i < tempVariables.cameraEffects.length; i++)
+	{
+		variables.cameraEffects.push(tempVariables.cameraEffects[i])
+	}
+	
+	variables.SFX = [];
+	for(var i= 0; i < tempVariables.SFX.length; i++)
+	{
+		variables.SFX.push(tempVariables.SFX[i])
+	}
+	
+	console.log(tempVariables);
+	console.log(variables);
+}
+
+function SetTempVariablesFromVariables()
+{
+	//console.log("SetTempVariablesFromVariables");
+	//console.log(tempVariables);
+	//console.log(variables);
+	
+	tempVariables.names = [];
+	for(var i= 0; i < variables.names.length; i++)
+	{
+		tempVariables.names.push(variables.names[i])
+	}
+	
+	tempVariables.faceEmotions = [];
+	for(var i= 0; i < variables.faceEmotions.length; i++)
+	{
+		tempVariables.faceEmotions.push(variables.faceEmotions[i])
+	}
+	
+	tempVariables.animations = [];
+	for(var i= 0; i < variables.animations.length; i++)
+	{
+		tempVariables.animations.push(variables.animations[i])
+	}
+	
+	tempVariables.cameraEffects = [];
+	for(var i= 0; i < variables.cameraEffects.length; i++)
+	{
+		tempVariables.cameraEffects.push(variables.cameraEffects[i])
+	}
+	
+	tempVariables.SFX = [];
+	for(var i= 0; i < variables.SFX.length; i++)
+	{
+		tempVariables.SFX.push(variables.SFX[i])
+	}
+	
+	
+	//console.log(tempVariables);
+	//console.log(variables);
+}
+
+function CloseVariablesModal()
+{
+	console.log(tempVariables);
+	console.log(variables);
+	tempVariablesModel = variablesModel;
+	variablesModel.style.display = "none";
+}
+
+function SaveVariablesModal()
+{
+	UpdateTempVariablesFromModal();
+	
+	SetVariablesFromTempVariables();
+	
+	variablesModel.style.display = "none";
+}
+
+/////////////////////////////////////////////////////////////
+/*
+function DeleteTempNameVariable(position)
+{
+	UpdateTempVariablesFromModal();
+	tempVariables.names.splice(position, 1);
+	renderVariables();
+}
+*/
+/*
+function DeleteTempFaceEmotionVariable(position)
+{
+	UpdateTempVariablesFromModal();
+	tempVariables.faceEmotions.splice(position, 1);
+	renderVariables();
+}
+*/
+/*
+function DeleteTempAnimationVariable(position)
+{
+	UpdateTempVariablesFromModal();
+	tempVariables.animations.splice(position, 1);
+	renderVariables();
+*/
+
+function AddTempNameVariable()
+{
+	UpdateTempVariablesFromModal();
+	tempVariables.names.push("");
+	renderVariables();
+}
+
+function AddTempFaceEmotionVariable()
+{
+	UpdateTempVariablesFromModal();
+	tempVariables.faceEmotions.push("");
+	renderVariables();
+}
+
+function AddTempAnimationVariable()
+{
+	UpdateTempVariablesFromModal();
+	tempVariables.animations.push("");
+	renderVariables();
+}
+
+function AddTempCameraEffectsVariable()
+{
+	UpdateTempVariablesFromModal();
+	tempVariables.cameraEffects.push("");
+	renderVariables();
+}
+function AddTempSFXVariable()
+{
+	UpdateTempVariablesFromModal();
+	tempVariables.SFX.push("");
+	renderVariables();
+}
+/////////////////////////////////////////////////////////////
 
 
   
@@ -816,6 +1331,11 @@ function CancelEditBranch(branchId)
 {
 	document.getElementById("detailsSpace").innerHTML = "";
 	document.getElementById("detailsSpace").style.display = "none";
+	document.getElementById("detailsModal").style.display = "none";
+	
+	document.getElementById("detailsModalHeader").innerHTML = "";
+	document.getElementById("detailsModalFooter").innerHTML = "";
+	
 
 	tempBranch.messages = null;
 }
@@ -968,6 +1488,10 @@ function SaveBranch(branchId)
 
 	document.getElementById("detailsSpace").innerHTML = "";
 	document.getElementById("detailsSpace").style.display = "none";
+	document.getElementById("detailsModal").style.display = "none";
+	
+	document.getElementById("detailsModalHeader").innerHTML = "";
+	document.getElementById("detailsModalFooter").innerHTML = "";
 
 	tempBranch = null;
 }
@@ -1097,7 +1621,7 @@ function MakeBox(numChoices, alreadyChosenBranchId) {
 	var branchLabelStr = 'Branch: ' + thisID;
 
 	var branchLabelText = new fabric.Text(branchLabelStr, {
-	  fontSize: 15,
+	  fontSize: 11,
 	  originX: 'center',
 	  originY: 'center',
 	  left: 0,
@@ -1107,7 +1631,7 @@ function MakeBox(numChoices, alreadyChosenBranchId) {
 	
 	
 	var firstMessagePreviewText = new fabric.Text("", {
-	  fontSize: 11,
+	  fontSize: 15,
 	  originX: 'center',
 	  originY: 'center',
 	  left: 0,
@@ -1139,8 +1663,8 @@ function MakeBox(numChoices, alreadyChosenBranchId) {
 
 	canvas.add(group);
 
-	newBoxTop += 10;
-	newBoxLeft += 10;
+	newBoxTop += 80;
+	newBoxLeft += 80;
 	if(newBoxTop > 600 || newBoxLeft > 600)
 	{
 		newBoxTop = 200;
@@ -1149,6 +1673,7 @@ function MakeBox(numChoices, alreadyChosenBranchId) {
 
 	group.choiceCircles = [];
 
+	//////////////////////////////////////////////////
 	var leftOffset = -65;
 	var topOffset = 15;
 	var circleInput = makeCircle('lightblue',0, 0, leftOffset, topOffset, true, group, 'inputCircle');
@@ -1160,6 +1685,51 @@ function MakeBox(numChoices, alreadyChosenBranchId) {
 	circleInput.setCoords();
 
 	canvas.add(circleInput);
+	//////////////////////////////////////////////////
+	
+	//////////////////////////////////////////////////
+	var leftOffsetCopy = 0;
+	var topOffsetCopy = -40;
+	var buttonCopy = makeButton('yellow',0, 0, leftOffsetCopy, topOffsetCopy, false, group, 'copyButton', copyIcon, copyObject);
+	group.buttonCopy = buttonCopy;
+
+	//Have to setCoords to make fabricjs happy
+	buttonCopy.left = group.left + leftOffsetCopy;
+	buttonCopy.top = group.top + topOffsetCopy;
+	buttonCopy.setCoords();
+
+	canvas.add(buttonCopy);
+	//////////////////////////////////////////////////
+	
+	//////////////////////////////////////////////////
+	var leftOffsetEdit = -40;
+	var topOffsetEdit = -40;
+	var buttonEdit = makeButton('orange',0, 0, leftOffsetEdit, topOffsetEdit, false, group, 'editButton', editIcon, editObject);
+	group.buttonEdit = buttonEdit;
+
+	//Have to setCoords to make fabricjs happy
+	buttonEdit.left = group.left + leftOffsetEdit;
+	buttonEdit.top = group.top + topOffsetEdit;
+	buttonEdit.setCoords();
+
+	canvas.add(buttonEdit);
+	//////////////////////////////////////////////////
+	
+	//////////////////////////////////////////////////
+	var leftOffsetDelete = 40;
+	var topOffsetDelete = -40;
+	var buttonDelete = makeButton('red',0, 0, leftOffsetDelete, topOffsetDelete, false, group, 'deleteButton', deleteIcon, deleteObject);
+	group.buttonDelete = buttonDelete;
+
+	//Have to setCoords to make fabricjs happy
+	buttonDelete.left = group.left + leftOffsetDelete;
+	buttonDelete.top = group.top + topOffsetDelete;
+	buttonDelete.setCoords();
+
+	canvas.add(buttonDelete);
+	//////////////////////////////////////////////////
+	
+	
 
 	addOutputCircles(group, numChoices);
 
@@ -1302,9 +1872,35 @@ function makeCircle(color, left, top, leftOffset, topOffset, isInput, groupRef, 
 	return c;
 }
 //////////////////////////////////////////////////////////////////////////////
-
+function makeButton(color, left, top, leftOffset, topOffset, isInput, groupRef, buttonName, icon, clickFunction) 
+{
+	var c = new fabric.Image(icon, {
+		left: left,
+		top: top,
+		strokeWidth: 2,
+		hoverCursor: 'pointer',
+		selectable: false,
+		width:18,
+		height:18
+	});
+	
+	c.hasControls = c.hasBorders = false;
+	c.groupRef = groupRef;
+	c.leftOffset = leftOffset;
+	c.topOffset = topOffset;
+	c.buttonName = buttonName;
+	
+	c.on('mouseup', function(options) 
+	{
+		clickFunction(this.groupRef);
+	});
+	
+	return c;
+}
+//////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////
+/*
 function renderDeleteIcon(ctx, left, top, styleOverride, fabricObject) {
 	var size = this.cornerSize;
 	ctx.save();
@@ -1315,17 +1911,16 @@ function renderDeleteIcon(ctx, left, top, styleOverride, fabricObject) {
 }
 
 fabric.Object.prototype.controls.deleteControl = new fabric.Control({
-	x: 0.7,
-	y: -0.9,
-	offsetY: 16,
+	x: 0.4,
+	y: -0.8,
 	cursorStyle: 'pointer',
 	mouseUpHandler: deleteObject,
 	render: renderDeleteIcon,
-	cornerSize: 24
+	cornerSize: 22
 });
+ */
   
-  
-function deleteObject(eventData, thingToDelete) 
+function deleteObject(thingToDelete) 
 {
 	var canvas = thingToDelete.canvas;
 	
@@ -1342,6 +1937,21 @@ function deleteObject(eventData, thingToDelete)
 		thingToDelete.circleInput.destroyLink();
 		canvas.remove(thingToDelete.circleInput);
 	}
+	
+	if(thingToDelete.buttonCopy)
+	{
+		canvas.remove(thingToDelete.buttonCopy);
+	}
+	
+	if(thingToDelete.buttonEdit)
+	{
+		canvas.remove(thingToDelete.buttonEdit);
+	}
+	
+	if(thingToDelete.buttonDelete)
+	{
+		canvas.remove(thingToDelete.buttonDelete);
+	}
 
 	thingToDelete.choiceCircles.forEach(function(cir) 
 	{
@@ -1357,6 +1967,7 @@ function deleteObject(eventData, thingToDelete)
 
 
 //////////////////////////////////////////////////////////////////////////////
+/*
 function renderCopyIcon(ctx, left, top, styleOverride, fabricObject) {
 	var size = this.cornerSize;
 	ctx.save();
@@ -1367,27 +1978,25 @@ function renderCopyIcon(ctx, left, top, styleOverride, fabricObject) {
 }
 
 fabric.Object.prototype.controls.copyControl = new fabric.Control({
-	x: 1,
-	y: -1.5,
-	offsetY: 16,
+	x: 0,
+	y: -0.8,
 	cursorStyle: 'pointer',
 	mouseUpHandler: copyObject,
 	render: renderCopyIcon,
-	cornerSize: 24
+	cornerSize: 22
 });
-  
+ */
  
-function copyObject(eventData, thingToCopy) 
+function copyObject(thingToCopy) 
 {
 	var canvas = thingToCopy.canvas;
-	
 	
 	var branch = GetBranch(thingToCopy.id);
 	
 	var box = MakeBox(branch.choices.length);
 
-	box.top = thingToCopy.top + 50;
-	box.left = thingToCopy.left + 50;
+	box.top = thingToCopy.top + 80;
+	box.left = thingToCopy.left + 80;
 	box.setCoords();
 	UpdateCirclePosition(box);
 	
@@ -1428,6 +2037,7 @@ function copyObject(eventData, thingToCopy)
 
 
 //////////////////////////////////////////////////////////////////////////////
+/*
 function renderEditIcon(ctx, left, top, styleOverride, fabricObject) {
 	var size = this.cornerSize;
 	ctx.save();
@@ -1438,17 +2048,16 @@ function renderEditIcon(ctx, left, top, styleOverride, fabricObject) {
 }
 
 fabric.Object.prototype.controls.editControl = new fabric.Control({
-	x: 0.7,
-	y: -1.5,
-	offsetY: 16,
+	x: -0.4,
+	y: -0.8,
 	cursorStyle: 'pointer',
 	mouseUpHandler: editObject,
 	render: renderEditIcon,
-	cornerSize: 24
+	cornerSize: 22
 });
+ */
   
-  
-function editObject(eventData, thingToEdit) 
+function editObject(thingToEdit) 
 {
 	var canvas = thingToEdit.canvas;
 	
@@ -1519,6 +2128,28 @@ function UpdateCirclePosition(p)
 			//p.circleInput.targetingMe.connectingLine.set({ 'x2': p.circleInput.left, 'y2': p.circleInput.top });
 		}
 	}
+	
+	if(p.buttonCopy)
+	{
+		p.buttonCopy.left = p.left + p.buttonCopy.leftOffset;
+		p.buttonCopy.top = p.top + p.buttonCopy.topOffset;
+		p.buttonCopy.setCoords();
+	}
+	
+	if(p.buttonEdit)
+	{
+		p.buttonEdit.left = p.left + p.buttonEdit.leftOffset;
+		p.buttonEdit.top = p.top + p.buttonEdit.topOffset;
+		p.buttonEdit.setCoords();
+	}
+	
+	if(p.buttonDelete)
+	{
+		p.buttonDelete.left = p.left + p.buttonDelete.leftOffset;
+		p.buttonDelete.top = p.top + p.buttonDelete.topOffset;
+		p.buttonDelete.setCoords();
+	}
+	
 	canvas.renderAll();
 }
 
@@ -1660,13 +2291,21 @@ function setCanvasSize() {
 
 importExportBtn.onclick = function() 
 {
-  importExportModal.style.display = "block";
+	importExportModal.style.display = "block";
 }
 
-closeBtn.onclick = function() {
-  importExportModal.style.display = "none";
-  document.getElementById('jsonInputOutput').value = "";
+importExportModalCloseBtn.onclick = function() {
+	importExportModal.style.display = "none";
+	document.getElementById('jsonInputOutput').value = "";
 }
+
+variablesBtn.onclick = function()
+{
+	SetTempVariablesFromVariables();
+	renderVariables();
+	variablesModel.style.display = "block";
+}
+
 
 //+++++++++++++++++++++++++++++++++++++++++
 
